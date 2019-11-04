@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -15,7 +16,7 @@ app.use(express.static(__dirname + '/public'));
 const personneRoutes = require('./routes/personne');
 
 // settings
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3000);
 
 // app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

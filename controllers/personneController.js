@@ -1,29 +1,34 @@
 const controller = {};
+const moment = require('moment');
+
 
 // importing model 
 let Personne = require('../models/personne');
 
 controller.index = (req, res) => {
     // get all the collection
-    Personne.find({}, function(err, items) {
+    Personne.find({}, function(err, personnes) {
       if (err) throw err;
       // console.log(items);
       res.render('./personne/index.ejs', {
-        data: items,  // object of the all items
-        title: 'Accueil'
+        personnes: personnes,  // object of the all items
+        title: 'Accueil',
+        moment: moment
         });
     });
 };
 
 controller.show = (req, res) => {
-    Personne.findById(req.params.id, function(err, item) {
+    Personne.findById(req.params.id, function(err, personne) {
         if (err) throw err;
-        if (item){ 
+        if (personne){ 
             
-            // console.log(item);
+            // console.log(personne);
             res.render('./personne/show.ejs', {
-                data: item, // object of one item
-                title: item._id
+                personne: personne, // object of one personne
+                title: personne._id,
+                moment: moment
+
             });
         };
     })
@@ -38,11 +43,17 @@ controller.add = (req, res) => {
 
 
 controller.save = (req, res) => {
-   
+//    console.log(req.body);
+
+
     let newPersonne = Personne({ // create a new item
-        number1: req.body.number1,
-        number2: req.body.number2,
-        text: req.body.text
+        nom: req.body.nom,
+        prenom: req.body.prenom,
+        genre: req.body.genre,
+        dob: req.body.dob,
+        ville: req.body.ville,
+        domaine: req.body.domaine,
+        photos: req.body.photos,
     });
    
     newPersonne.save(function(err) { // save the new item
@@ -74,7 +85,8 @@ controller.edit = (req, res) => {
               // console.log(items);
                 res.render('./personne/form.ejs', {
                     dataEdit: item,
-                    title: 'Edition de ' + item.id
+                    title: 'Edition de ' + item.id,
+                    moment: moment
                 });
             });
         };
@@ -96,9 +108,13 @@ controller.update = (req, res) => {
         }
         else if (req.body.id){
             Personne.findByIdAndUpdate(req.params.id,{ // update one item with id
-                number1: req.body.number1,
-                number2: req.body.number2,
-                text: req.body.text
+                nom: req.body.nom,
+                prenom: req.body.prenom,
+                genre: req.body.genre,
+                dob: req.body.dob,
+                ville: req.body.ville,
+                domaine: req.body.domaine,
+                photos: req.body.photos,
             }, 
             function(err, item) {
                 if (err) throw err;
