@@ -2,6 +2,7 @@ const controller = {};
 const moment = require('moment');
 
 
+
 // importing model 
 let Personne = require('../models/personne');
 
@@ -43,7 +44,17 @@ controller.add = (req, res) => {
 
 
 controller.save = (req, res) => {
+
+
 //    console.log(req.body);
+
+    let sampleFile = req.files.photo;
+    sampleFile.mv('/somewhere/on/your/server/filename.jpg', function(err) {
+        if (err)
+        return res.status(500).send(err);
+    })
+
+    console.log(sampleFile);
 
 
     let newPersonne = Personne({ // create a new item

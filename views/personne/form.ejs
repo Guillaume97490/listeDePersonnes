@@ -1,7 +1,7 @@
 <% include ../partials/head.ejs %>
 
 <form <% if(locals.dataEdit){ %>action="/personne/update/<%= dataEdit._id %>" <% } else{ %>action="/personne/save"
-  <% } %> method="post">
+  <% } %> method="post" encType="multipart/form-data">
 
   <div class="container">
     <div class="row">

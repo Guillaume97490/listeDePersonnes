@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const fileUpload = require('express-fileupload');
 
-
+app.use(fileUpload());
 
 app.use(bodyParser.urlencoded({
     extended: true
