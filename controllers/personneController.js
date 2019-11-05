@@ -39,32 +39,28 @@ controller.add = (req, res) => {
 
 
 controller.save = (req, res) => {
-    let sampleFile = req.files.photo;
-    console.log(sampleFile.mimetype);
-    if ((sampleFile.mimetype !== 'image/jpeg') || (sampleFile.mimetype !== 'image/png')){
-        res.redirect("/personne"); 
-        return;
-    }
-    sampleFile.mv(`${__dirname}/../public/uploads/${sampleFile.name}`, function(err) {
-        if (err){
-            return res.status(500).send(err);
-        }
-    let newPersonne = Personne({
-        nom: req.body.nom,
-        prenom: req.body.prenom,
-        genre: req.body.genre,
-        dob: req.body.dob,
-        ville: req.body.ville,
-        domaine: req.body.domaine,
-        photo: sampleFile.name,
-    });
-    newPersonne.save(function(err) { 
-        if (err) throw err;
-        // console.log('Personne created successfully.');        
-        res.redirect("/personne"); 
-    });
-    });
-};
+        let sampleFile = req.files.photo;
+        sampleFile.mv(`${__dirname}/../public/uploads/${sampleFile.name}`, function(err) {
+            if (err)
+                return res.status(500).send(err);
+            // res.send('File uploaded!');
+            let newPersonne = Personne({ // create a new item
+                nom: req.body.nom,
+                prenom: req.body.prenom,
+                genre: req.body.genre,
+                dob: req.body.dob,
+                ville: req.body.ville,
+                domaine: req.body.domaine,
+                photo: sampleFile.name,
+            });
+       
+            newPersonne.save(function(err) { // save the new item
+                if (err) throw err;
+                // console.log('Personne created successfully.');        
+                res.redirect("/personne"); // redirect to index
+            });
+        });
+    };
 
 controller.tirage = (req, res) => {
     const dateDujour = moment().format('YYYY-MM-DD') + 'T00:00:00.000Z';
