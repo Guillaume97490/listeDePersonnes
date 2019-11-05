@@ -1,7 +1,10 @@
 # listeDePersonnes
 
 ## Consigne : 
-Afficher dans un tableau la liste des entrée de la base sur la page visiteur voir un élément au hasard avec un random valide 1 jour.
+Afficher dans un tableau la liste des entrées de la base.
+Sur la page visiteur, affiche un un élément au hasard avec un random valide 1 jour.
+Un nouvel élément est selectionné le lendemain.
+Un élément ne doit pas etre séléctioné si il l'a déja été.
 
 ## Structure de la BDD
 - nom (varchar)
@@ -10,6 +13,9 @@ Afficher dans un tableau la liste des entrée de la base sur la page visiteur vo
 - domaine (varchar)
 - DoB (datetime)
 - ville (varchar)
-- genre (boolean)
+- genre (string, enum : "h" , "f")
 - dateChoisi (datetime)
+- choisi: boolean
+
+
 

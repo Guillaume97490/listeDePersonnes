@@ -15,7 +15,7 @@
 <% }%>
 
 <div class="container-fluid d-flex justify-content-center">
-  <div>
+  <div class="table-container">
 
 <% if (locals.personnes) { %>
   
@@ -38,7 +38,10 @@
         
         <tr class="<% if( personne.enabled == 0){ %> row-disabled <% } %> ">
           <td data-label="Photo" class="text-center align-middle fs20" scope="row">
-            <img class="photo-personne" src="/uploads/<%= personne.photo %>" alt="<%= personne.photo %>">
+            
+              <img class="photo-personne" src="/uploads/<%= personne.photo %>" alt="<%= personne.photo %>">
+
+           
             
           </td>
           <td data-label="Nom" class="text-center align-middle fs20" scope="row"><%= personne.nom %></td>
@@ -66,7 +69,7 @@
           <td data-label="Actions" class="text-center align-middle" scope="row">
             <div class="btn-group">
     
-              <a class="btn btn-primary" href="/personne/show/<%= (personne._id) %>">Voir</a>
+              <!-- <a class="btn btn-primary" href="/personne/show/<%= (personne._id) %>">Voir</a> -->
               <a class="btn btn-warning <% if(personne.enabled == 0){ %> disabled <% } %>"
                 href="/personne/edit/<%= (personne._id) %>">Modifier</a>
               <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
@@ -74,9 +77,9 @@
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu <% if(personne.enabled == 0){ %> disabled <% } %>">
-                <a class="dropdown-item"
+                <!-- <a class="dropdown-item"
                   href="/personne/disable/<%= (personne._id) %>"><% if(personne.enabled == 0){ %>
-                  Activer <% } else{ %> Désactiver <% } %></a>
+                  Activer <% } else{ %> Désactiver <% } %></a> -->
                 <a class="dropdown-item bg-danger text-white <% if(personne.enabled == 0){ %> disabled <% } %>"
                   href="/personne/delete/<%= (personne._id) %>">Supprimer</a>
               </div>

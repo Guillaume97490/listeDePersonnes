@@ -12,10 +12,41 @@ body {
 }
 
 .photo-personne{
-  height: 38px;
+  display: block;
+  position: relative;
+  height: 50px;
+  width: 50px;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 100%;
+  margin: auto;
+}
+
+.custom-file-label::after{
+  content: "Parcourir" !important;
+}
+
+.photo-input{
+  padding: 0 15px 0 15px;
+}
+
+.table-bordered td, .table-bordered th {
+  border: 0;
+}
+
+.table td, .table th {
+  border-top: 1px solid #dee2e6;
 }
 
 @media only screen and (max-width: 750px) {
+
+  .table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+  }
+  .table-container{
+    width: inherit;
+  }
+
   .table-responsive{
     border: 0;
   }
@@ -32,7 +63,7 @@ body {
     display: none;
   }
   .table-responsive td {
-    padding-left: 150px;
+    padding-left: 120px;
     position: relative;
     margin-top: -1px;
     background: #FFF;
@@ -46,7 +77,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 130px;
+    width: 110px;
     bottom: 0;
     background-color:#343a40;
     color: #FFF;
