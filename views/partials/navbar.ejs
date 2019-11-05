@@ -1,7 +1,7 @@
 <div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/personne">Navbar</a>
+    <a class="navbar-brand" href="/personne">Liste de personnes</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,6 +13,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link <% if(locals.title == 'Nouveau') { %> active <% } %> " href="/personne/add">Ajouter</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <% if(locals.title == 'Tirage du jour') { %> active <% } %> " href="/personne/tirage-du-jour">Tirage du jour</a>
         </li>
         <li class="nav-item dropdown">
           <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

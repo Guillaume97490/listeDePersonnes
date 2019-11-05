@@ -49,12 +49,14 @@ controller.save = (req, res) => {
 //    console.log(req.body);
 
     let sampleFile = req.files.photo;
-    sampleFile.mv('/somewhere/on/your/server/filename.jpg', function(err) {
-        if (err)
-        return res.status(500).send(err);
-    })
 
-    console.log(sampleFile);
+    sampleFile.mv(`${__dirname}/../public/uploads/${sampleFile.name}`, function(err) {
+        if (err)
+            return res.status(500).send(err);
+        // res.send('File uploaded!');
+    
+
+    // console.log(sampleFile);
 
 
     let newPersonne = Personne({ // create a new item
@@ -64,7 +66,7 @@ controller.save = (req, res) => {
         dob: req.body.dob,
         ville: req.body.ville,
         domaine: req.body.domaine,
-        photos: req.body.photos,
+        photo: sampleFile.name,
     });
    
     newPersonne.save(function(err) { // save the new item
@@ -72,12 +74,57 @@ controller.save = (req, res) => {
         // console.log('Personne created successfully.');        
         res.redirect("/personne"); // redirect to index
     });
+    });
 };
+
+controller.tirage = (req, res) => {
+    const dateDujour = moment().format('YYYY-MM-DD') + 'T00:00:00.000Z'
+
+    Personne.find({ $or:[{'dateChoisi': null}, {'dateChoisi' : new Date(dateDujour)}] }, function(err, personnes){
+        if (err) throw err;
+        let candidats = [];
+        let choisiDujour = undefined;
+        // console.log(personnes);
+
+        personnes.forEach(personne => {
+            if (personne.dateChoisi !== null){
+                    choisiDujour = personne;
+            }
+            if(personne.dateChoisi == null){
+                candidats.push(personne);
+            }
+        });
+
+        if (choisiDujour == undefined){
+            var personneDuJour = candidats[Math.floor(Math.random()*candidats.length)];
+            choisiDujour = personneDuJour;
+            console.log(candidats.length);
+            if (candidats.length !== 0){
+                Personne.findByIdAndUpdate(personneDuJour.id,{ // update one item with id
+                    dateChoisi: moment().format('YYYY-MM-DD'),
+                    choisi: true
+                },function(err, item) {
+                    if (err) throw err;
+                });
+
+            }
+        }
+
+        res.render('./personne/tirage.ejs', {
+            personne: choisiDujour,  // object of the all items
+            title: 'Tirage du jour',
+            moment: moment
+        });
+        
+    });
+
+     
+}
 
   
 controller.edit = (req, res) => {
     Personne.findById(req.params.id, function(err, item) {
-        console.log(item.enabled)
+        // console.log(item.enabled)
         if (item.enabled === false){
             Personne.find({}, function(err, items) {
                 if (err) throw err;
@@ -105,6 +152,10 @@ controller.edit = (req, res) => {
 }
 
 controller.update = (req, res) => {
+    let sampleFile = req.files.photo;
+    sampleFile.mv(`${__dirname}/../public/uploads/${sampleFile.name}`, function(err) {
+        if (err)
+            return res.status(500).send(err);
     Personne.findById(req.params.id, function(err, item) {
         if (item.enabled === false){
             Personne.find({}, function(err, items) {
@@ -125,7 +176,7 @@ controller.update = (req, res) => {
                 dob: req.body.dob,
                 ville: req.body.ville,
                 domaine: req.body.domaine,
-                photos: req.body.photos,
+                photo: sampleFile.name,
             }, 
             function(err, item) {
                 if (err) throw err;
@@ -134,6 +185,7 @@ controller.update = (req, res) => {
             });
         }
     })
+})
 }
 
 
@@ -142,7 +194,7 @@ controller.delete = (req, res) => {
     if (err) throw err;
 
     res.redirect("/personne");
-    console.log('Item deleted successfully');
+    // console.log('Item deleted successfully');
     });
 }
 

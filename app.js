@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const fileUpload = require('express-fileupload');
 
-app.use(fileUpload());
+app.use(fileUpload({ safeFileNames: true }));
 
 app.use(bodyParser.urlencoded({
     extended: true

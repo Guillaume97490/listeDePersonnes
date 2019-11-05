@@ -7,8 +7,8 @@ let personneSchema = mongoose.Schema({
     domaine: {type: String, required: true},
     dob: {type: Date, required: true},
     ville: {type: String, required: true},
-    genre: {type: String, required: true},
-    dateChoisi: Date,
+    genre: {type: String, enum : ['h','f'], required: true},
+    dateChoisi: {type: Date, default: null},
     choisi: {type: Boolean, default: false}
 });
 

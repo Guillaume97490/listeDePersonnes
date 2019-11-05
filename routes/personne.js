@@ -9,6 +9,7 @@ router.get('/show/:id', personneController.show);
 router.get('/add', personneController.add);
 router.post('/save', personneController.save);
 router.get('/edit/:id', personneController.edit);
+router.get('/tirage-du-jour', personneController.tirage);
 router.post('/update/:id', personneController.update);
 router.get('/delete/:id', personneController.delete);
 router.get('/disable/:id', personneController.disable);
