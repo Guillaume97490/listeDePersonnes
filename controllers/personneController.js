@@ -4,19 +4,51 @@ require('moment/locale/fr');
 
 // importing model 
 let Personne = require('../models/personne');
+// let User = require('../models/user');
 
 
 
 controller.index = (req, res) => {
     Personne.find({}, function(err, personnes) {
-      if (err) throw err;
-      res.render('./personne/index.ejs', {
-        personnes: personnes,
-        title: 'Accueil',
-        moment: moment
+        if (err) throw err;
+        res.render('./personne/index.ejs', {
+            personnes: personnes,
+            title: 'Accueil',
+            moment: moment
         });
     });
 };
+
+// controller.login = (req, res) => {
+//     // Personne.find({}, function(err, personnes) {
+//     // if (err) throw err;
+//         res.render('./user/login.ejs', {
+//             title: 'Connexion',
+//         });
+//     // });
+// };
+
+// controller.register = (req, res) => {
+//     // Personne.find({}, function(err, personnes) {
+//     // if (err) throw err;
+//         res.render('./user/register.ejs', {
+//             title: 'Inscription',
+//         });
+//     // });
+// };
+// controller.saveRegister = (req, res) => {
+
+//     let newUser = User({ // create a new item
+//         username: req.body.username,
+//         password: req.body.password
+//     });
+
+//     newUser.save(function(err) { // save the new item
+//         if (err) throw err;
+//         // console.log('Personne created successfully.');        
+//         res.redirect("/personne"); // redirect to index
+//     });
+// };
 
 controller.show = (req, res) => {
     Personne.findById(req.params.id, function(err, personne) {
@@ -39,28 +71,28 @@ controller.add = (req, res) => {
 
 
 controller.save = (req, res) => {
-        let sampleFile = req.files.photo;
-        sampleFile.mv(`${__dirname}/../public/uploads/${sampleFile.name}`, function(err) {
-            if (err)
-                return res.status(500).send(err);
-            // res.send('File uploaded!');
-            let newPersonne = Personne({ // create a new item
-                nom: req.body.nom,
-                prenom: req.body.prenom,
-                genre: req.body.genre,
-                dob: req.body.dob,
-                ville: req.body.ville,
-                domaine: req.body.domaine,
-                photo: sampleFile.name,
-            });
-       
-            newPersonne.save(function(err) { // save the new item
-                if (err) throw err;
-                // console.log('Personne created successfully.');        
-                res.redirect("/personne"); // redirect to index
-            });
+    let sampleFile = req.files.photo;
+    sampleFile.mv(`${__dirname}/../public/uploads/${sampleFile.name}`, function(err) {
+        if (err)
+            return res.status(500).send(err);
+        // res.send('File uploaded!');
+        let newPersonne = Personne({ // create a new item
+            nom: req.body.nom,
+            prenom: req.body.prenom,
+            genre: req.body.genre,
+            dob: req.body.dob,
+            ville: req.body.ville,
+            domaine: req.body.domaine,
+            photo: sampleFile.name,
         });
-    };
+    
+        newPersonne.save(function(err) { // save the new item
+            if (err) throw err;
+            // console.log('Personne created successfully.');        
+            res.redirect("/personne"); // redirect to index
+        });
+    });
+};
 
 controller.tirage = (req, res) => {
     const dateDujour = moment().format('YYYY-MM-DD') + 'T00:00:00.000Z';
@@ -182,6 +214,22 @@ controller.disable = (req, res) => {
             });
         })
     }
+}
+
+controller.reset = (req,res) => {
+    Personne.find({}, function(err, personnes) {
+        if (err) throw err;
+        personnes.forEach(personne => {
+            Personne.findByIdAndUpdate(personne.id,{
+                dateChoisi: null,
+                choisi: false
+            }, 
+            function(err, item) {
+                if (err) throw err;
+            });
+        });
+        res.redirect("/personne");
+    });
 }
 
 
